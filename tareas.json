@@ -1,0 +1,9 @@
+{
+    "titulo": "Primera tarea",
+    "descripcion":"Crear api para registrar tareas",
+    "estatus":"1",
+    "fechaLimite":"2022/07/31",
+    "comentarios":"La tarea está en curso",
+    "responsable":"José Arias",
+    "tags":"tareaPrimaria"
+}

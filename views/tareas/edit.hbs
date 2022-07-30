@@ -1,0 +1,75 @@
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+<div class="block mx-auto my-12 p-8 bg-white w-1/3 border border-gray-200 rounded-lg shadow-lg text-gray-800">
+
+  <h1 class="text-center text-3xl font-bold">Editar tarea</h1>
+
+  {{#each tareas}}
+
+
+    <input type="text" class="border border-gray-200 rounded-md bg-gray-200 w-full text-lg placeholder-gray-500 
+      p-2 my-2 focus:bg-white" placeholder="Título de tarea" name="title" id="titulo" value="{{titulo}}">
+
+    <textarea class="border border-gray-200 rounded-md bg-gray-200 w-full text-lg placeholder-gray-500 
+      p-2 my-2 focus:bg-white h-40" placeholder="Descripción de tarea" id="descripcion" name="description">{{descripcion}}</textarea>
+
+    <input type="date" class="border border-gray-200 rounded-md bg-gray-200 w-full text-lg placeholder-gray-500 
+      p-2 my-2 focus:bg-white" placeholder="Fecha de entrega" name="fecha_entrega" id="fecha_entrega" value="{{fecha_entrega}}">
+
+    <input type="text" class="border border-gray-200 rounded-md bg-gray-200 w-full text-lg placeholder-gray-500 
+      p-2 my-2 focus:bg-white" placeholder="Responsable" name="responsable" id="responsable" value="{{responsable}}">
+
+    <textarea class="border border-gray-200 rounded-md bg-gray-200 w-full text-lg placeholder-gray-500 
+      p-2 my-2 focus:bg-white h-40" placeholder="Comentarios" name="comentarios" id="comentarios">{{comentarios}}</textarea>
+
+    <input type="text" class="border border-gray-200 rounded-md bg-gray-200 w-full text-lg placeholder-gray-500 
+      p-2 my-2 focus:bg-white" placeholder="Tags" name="tags" id ="tags" value="{{tags}}">
+    
+     {{#if asignado}}
+    <select class="border border-gray-200 rounded-md bg-gray-200 w-full text-lg placeholder-gray-500 p-2 my-2 focus:bg-white">
+            <option value="1" selected="selected">Asignada</option>
+            <option value="2">En progreso</option>
+            <option value="3">Terminada</option>
+    </select>
+     {{/if}}
+    
+
+    <button type="button" class="rounded-md bg-blue-500 w-full text-lg text-white font-semibold p-2 my-3
+      hover:bg-blue-600 focus:bg-blue-700 edit" value="{{id}}">Guardar</button>
+
+  
+  {{/each}}
+   <input type="hidden" id="hiddenInput" name="hiddenInput" value="{{date}}">
+</div>
+
+<script>
+  var date = $("#hiddenInput").val();
+ $("#fecha_entrega").val(date);
+ $('.edit').click(function() {
+    var id= $('.edit').val();
+    var titulo = $("#titulo").val();
+    var descripcion = $("#descripcion").text();
+    var fecha_entrega= $("#fecha_entrega").val();
+    var responsable = $("#responsable").val();
+    var comentarios = $("#comentarios").text();
+    var tags = $("#tags").val();
+    doAjax(id,titulo,descripcion,fecha_entrega,responsable,comentarios,tags);
+})
+
+  var doAjax = function(id,titulo,descripcion,fecha_entrega,responsable,comentarios,tags) {
+      console.log(titulo)
+    $.ajax({
+      type: 'PUT',
+      url: '/tareas/update/' + id,
+      data: { id: id, titulo : titulo, descripcion: descripcion, fecha_entrega:fecha_entrega, responsable:responsable,comentarios:comentarios,tags:tags},
+      dataType: "json",
+      
+      success: function(data){
+                console.log(data);
+      }
+    }).done(function () {
+      location.href = "/tareas";
+    });
+   }
+</script>
